@@ -2194,11 +2194,10 @@ const CLIENT_ID =
   'add07439-4d8f-424f-98f5-3e0811b20ff3';
 
 
-const { createClient } =
-  supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_KEY
-  );
+const supabaseClient = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
 
 
 /* ============================================================
