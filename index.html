@@ -2296,7 +2296,7 @@ async function loadCompanySettings(){
   const {
     data,
     error
-  } = await supabase
+  } = await supabaseClient
     .from('company_settings')
     .select('*')
     .eq('client_id', CLIENT_ID)
@@ -2328,7 +2328,7 @@ async function loadCategories(){
   const {
     data,
     error
-  } = await supabase
+  } = await supabaseClient
     .from('categories')
     .select('*')
     .eq('client_id', CLIENT_ID)
@@ -2363,7 +2363,7 @@ async function loadTests(){
   const {
     data,
     error
-  } = await supabase
+  } = await supabaseClient
     .from('products')
     .select('*')
     .eq('client_id', CLIENT_ID)
@@ -2400,7 +2400,7 @@ async function loadGallery(){
     const {
       data,
       error
-    } = await supabase
+    } = await supabaseClient
       .from('gallery')
       .select('*')
       .eq('client_id', CLIENT_ID);
@@ -2440,7 +2440,7 @@ async function loadTestimonials(){
     const {
       data,
       error
-    } = await supabase
+    } = await supabaseClient
       .from('testimonials')
       .select('*')
       .eq('client_id', CLIENT_ID);
@@ -2478,7 +2478,7 @@ async function loadFAQs(){
   const {
     data,
     error
-  } = await supabase
+  } = await supabaseClient
     .from('faqs')
     .select('*')
     .eq('client_id', CLIENT_ID)
@@ -3869,7 +3869,7 @@ document.getElementById(
 
       const {
         error
-      } = await supabase
+      } = await supabaseClient
         .from('enquiries')
         .insert([
           payload
