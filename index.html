@@ -1,0 +1,4151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Diagnostic Laboratory</title>
+<meta name="description" content="Diagnostic laboratory services">
+
+<link id="favicon" rel="icon" href="">
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+:root{
+  --primary:#2563eb;
+  --secondary:#111827;
+  --light:#f5f7fb;
+  --white:#ffffff;
+  --text:#172033;
+  --muted:#667085;
+  --border:#e5e7eb;
+  --success:#16a34a;
+  --danger:#dc2626;
+  --shadow:0 15px 45px rgba(15,23,42,.08);
+  --radius:18px;
+}
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  font-family:Inter,Arial,Helvetica,sans-serif;
+  color:var(--text);
+  background:#fff;
+  line-height:1.6;
+}
+
+img{
+  max-width:100%;
+  display:block;
+}
+
+a{
+  color:inherit;
+  text-decoration:none;
+}
+
+button,
+input,
+textarea,
+select{
+  font:inherit;
+}
+
+.container{
+  width:min(1180px,92%);
+  margin:auto;
+}
+
+/* ================= HEADER ================= */
+
+.topbar{
+  background:var(--secondary);
+  color:#fff;
+  font-size:13px;
+}
+
+.topbar-inner{
+  min-height:40px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px;
+}
+
+.topbar-left,
+.topbar-right{
+  display:flex;
+  align-items:center;
+  gap:18px;
+}
+
+.navbar{
+  position:sticky;
+  top:0;
+  z-index:1000;
+  background:rgba(255,255,255,.96);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--border);
+}
+
+.nav-inner{
+  min-height:76px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:30px;
+}
+
+.logo-wrap{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  min-width:0;
+}
+
+.logo{
+  width:54px;
+  height:54px;
+  object-fit:contain;
+  border-radius:10px;
+}
+
+.logo-placeholder{
+  width:54px;
+  height:54px;
+  border-radius:10px;
+  background:var(--primary);
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:800;
+  font-size:20px;
+}
+
+.brand-name{
+  font-size:18px;
+  font-weight:800;
+  line-height:1.2;
+}
+
+.brand-tagline{
+  font-size:11px;
+  color:var(--muted);
+}
+
+.nav-links{
+  display:flex;
+  align-items:center;
+  gap:25px;
+}
+
+.nav-links a{
+  font-size:14px;
+  font-weight:600;
+  color:#344054;
+  transition:.2s;
+}
+
+.nav-links a:hover{
+  color:var(--primary);
+}
+
+.nav-actions{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.btn{
+  border:0;
+  cursor:pointer;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  padding:12px 18px;
+  border-radius:10px;
+  font-weight:700;
+  font-size:14px;
+  transition:.2s;
+}
+
+.btn-primary{
+  background:var(--primary);
+  color:#fff;
+}
+
+.btn-primary:hover{
+  transform:translateY(-1px);
+  opacity:.92;
+}
+
+.btn-outline{
+  background:#fff;
+  color:var(--primary);
+  border:1px solid var(--primary);
+}
+
+.btn-dark{
+  background:var(--secondary);
+  color:#fff;
+}
+
+.mobile-menu-btn{
+  display:none;
+  background:none;
+  border:0;
+  font-size:27px;
+  cursor:pointer;
+}
+
+/* ================= HERO ================= */
+
+.hero{
+  position:relative;
+  min-height:650px;
+  display:flex;
+  align-items:center;
+  background:
+    linear-gradient(90deg,rgba(8,20,45,.92),rgba(8,20,45,.68),rgba(8,20,45,.25)),
+    url("https://images.unsplash.com/photo-1579154204601-01588f351e67?auto=format&fit=crop&w=1800&q=85")
+    center/cover;
+  color:#fff;
+}
+
+.hero-content{
+  max-width:700px;
+  padding:90px 0;
+}
+
+.badge{
+  display:inline-flex;
+  padding:7px 13px;
+  border-radius:50px;
+  background:rgba(255,255,255,.13);
+  border:1px solid rgba(255,255,255,.25);
+  font-size:13px;
+  font-weight:700;
+  margin-bottom:20px;
+}
+
+.hero h1{
+  font-size:clamp(40px,6vw,68px);
+  line-height:1.08;
+  margin-bottom:20px;
+  letter-spacing:-1.5px;
+}
+
+.hero p{
+  font-size:18px;
+  color:rgba(255,255,255,.86);
+  max-width:650px;
+  margin-bottom:30px;
+}
+
+.hero-buttons{
+  display:flex;
+  flex-wrap:wrap;
+  gap:12px;
+}
+
+.hero .btn-outline{
+  background:transparent;
+  border-color:#fff;
+  color:#fff;
+}
+
+/* ================= STATS ================= */
+
+.stats{
+  margin-top:-55px;
+  position:relative;
+  z-index:5;
+}
+
+.stats-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  background:#fff;
+  border-radius:20px;
+  box-shadow:var(--shadow);
+  overflow:hidden;
+}
+
+.stat{
+  padding:30px;
+  text-align:center;
+  border-right:1px solid var(--border);
+}
+
+.stat:last-child{
+  border-right:0;
+}
+
+.stat-number{
+  font-size:34px;
+  font-weight:900;
+  color:var(--primary);
+}
+
+.stat-label{
+  font-size:13px;
+  color:var(--muted);
+  font-weight:600;
+}
+
+/* ================= COMMON ================= */
+
+section{
+  padding:90px 0;
+}
+
+.section-head{
+  max-width:700px;
+  margin:0 auto 45px;
+  text-align:center;
+}
+
+.section-head .eyebrow{
+  color:var(--primary);
+  text-transform:uppercase;
+  letter-spacing:1.5px;
+  font-size:12px;
+  font-weight:800;
+  margin-bottom:8px;
+}
+
+.section-head h2{
+  font-size:38px;
+  line-height:1.15;
+  margin-bottom:12px;
+}
+
+.section-head p{
+  color:var(--muted);
+}
+
+/* ================= SEARCH ================= */
+
+.search-section{
+  background:var(--light);
+}
+
+.search-box{
+  max-width:850px;
+  margin:0 auto 35px;
+  display:flex;
+  background:#fff;
+  padding:8px;
+  border-radius:15px;
+  box-shadow:var(--shadow);
+  border:1px solid var(--border);
+}
+
+.search-box input{
+  flex:1;
+  border:0;
+  outline:0;
+  padding:14px;
+  background:transparent;
+  min-width:0;
+}
+
+.search-box button{
+  flex-shrink:0;
+}
+
+.search-results{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:20px;
+}
+
+/* ================= CARDS ================= */
+
+.card{
+  background:#fff;
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  overflow:hidden;
+  transition:.25s;
+}
+
+.card:hover{
+  transform:translateY(-4px);
+  box-shadow:var(--shadow);
+}
+
+.card-body{
+  padding:22px;
+}
+
+.card h3{
+  font-size:19px;
+  margin-bottom:8px;
+}
+
+.card p{
+  color:var(--muted);
+  font-size:14px;
+}
+
+.test-card{
+  display:flex;
+  flex-direction:column;
+}
+
+.test-image{
+  height:190px;
+  background:#eef2f7;
+  object-fit:cover;
+  width:100%;
+}
+
+.test-info{
+  padding:20px;
+}
+
+.test-code{
+  display:inline-block;
+  color:var(--primary);
+  background:rgba(37,99,235,.08);
+  padding:4px 9px;
+  border-radius:6px;
+  font-size:11px;
+  font-weight:800;
+  margin-bottom:10px;
+}
+
+.test-meta{
+  display:flex;
+  flex-wrap:wrap;
+  gap:7px;
+  margin:13px 0;
+}
+
+.test-meta span{
+  font-size:11px;
+  background:#f2f4f7;
+  padding:5px 8px;
+  border-radius:6px;
+  color:#475467;
+}
+
+.card-actions{
+  display:flex;
+  gap:8px;
+  margin-top:15px;
+}
+
+.card-actions .btn{
+  flex:1;
+  padding:10px;
+  font-size:12px;
+}
+
+/* ================= CATEGORIES ================= */
+
+.categories{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:18px;
+}
+
+.category-card{
+  padding:25px;
+  border:1px solid var(--border);
+  border-radius:16px;
+  background:#fff;
+  text-align:center;
+  cursor:pointer;
+  transition:.2s;
+}
+
+.category-card:hover{
+  background:var(--primary);
+  color:#fff;
+  transform:translateY(-3px);
+}
+
+.category-icon{
+  width:52px;
+  height:52px;
+  margin:0 auto 14px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:rgba(37,99,235,.1);
+  color:var(--primary);
+  font-size:23px;
+}
+
+.category-card:hover .category-icon{
+  background:rgba(255,255,255,.18);
+  color:#fff;
+}
+
+/* ================= ABOUT ================= */
+
+.about{
+  background:var(--light);
+}
+
+.about-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:60px;
+  align-items:center;
+}
+
+.about-image{
+  border-radius:25px;
+  overflow:hidden;
+  min-height:450px;
+  background:
+    url("https://images.unsplash.com/photo-1579684385127-1ef15d508118?auto=format&fit=crop&w=1000&q=85")
+    center/cover;
+}
+
+.about-content h2{
+  font-size:42px;
+  line-height:1.15;
+  margin-bottom:18px;
+}
+
+.about-content p{
+  color:var(--muted);
+  margin-bottom:15px;
+}
+
+.about-points{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:14px;
+  margin-top:25px;
+}
+
+.point{
+  display:flex;
+  gap:10px;
+  align-items:flex-start;
+  font-weight:700;
+  font-size:14px;
+}
+
+.point-icon{
+  color:var(--success);
+}
+
+/* ================= SERVICES ================= */
+
+.services-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:20px;
+}
+
+.service-card{
+  padding:28px;
+  border:1px solid var(--border);
+  border-radius:18px;
+}
+
+.service-icon{
+  width:52px;
+  height:52px;
+  border-radius:13px;
+  background:rgba(37,99,235,.09);
+  color:var(--primary);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:24px;
+  margin-bottom:18px;
+}
+
+.service-card h3{
+  margin-bottom:8px;
+}
+
+.service-card p{
+  color:var(--muted);
+  font-size:14px;
+}
+
+/* ================= INFO BANNER ================= */
+
+.info-banner{
+  background:var(--secondary);
+  color:#fff;
+  border-radius:25px;
+  padding:45px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:30px;
+}
+
+.info-banner h2{
+  font-size:30px;
+}
+
+.info-banner p{
+  color:#cbd5e1;
+  margin-top:8px;
+}
+
+/* ================= GALLERY ================= */
+
+.gallery{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:12px;
+}
+
+.gallery-item{
+  height:240px;
+  overflow:hidden;
+  border-radius:14px;
+  background:#eee;
+}
+
+.gallery-item img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  transition:.3s;
+}
+
+.gallery-item:hover img{
+  transform:scale(1.05);
+}
+
+/* ================= TESTIMONIAL ================= */
+
+.testimonials{
+  background:var(--light);
+}
+
+.testimonial-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:20px;
+}
+
+.testimonial-card{
+  background:#fff;
+  border:1px solid var(--border);
+  border-radius:18px;
+  padding:28px;
+}
+
+.stars{
+  color:#f59e0b;
+  letter-spacing:2px;
+  margin-bottom:14px;
+}
+
+.testimonial-text{
+  color:#475467;
+  font-size:14px;
+  margin-bottom:20px;
+}
+
+.testimonial-name{
+  font-weight:800;
+}
+
+.testimonial-role{
+  color:var(--muted);
+  font-size:12px;
+}
+
+/* ================= FAQ ================= */
+
+.faq-list{
+  max-width:850px;
+  margin:auto;
+}
+
+.faq-item{
+  border:1px solid var(--border);
+  border-radius:13px;
+  margin-bottom:12px;
+  overflow:hidden;
+}
+
+.faq-question{
+  padding:18px 20px;
+  display:flex;
+  justify-content:space-between;
+  gap:20px;
+  cursor:pointer;
+  font-weight:750;
+}
+
+.faq-answer{
+  display:none;
+  padding:0 20px 20px;
+  color:var(--muted);
+  font-size:14px;
+}
+
+.faq-item.active .faq-answer{
+  display:block;
+}
+
+/* ================= ENQUIRY ================= */
+
+.enquiry{
+  background:var(--light);
+}
+
+.enquiry-grid{
+  display:grid;
+  grid-template-columns:.8fr 1.2fr;
+  gap:40px;
+  align-items:start;
+}
+
+.contact-box{
+  background:var(--secondary);
+  color:#fff;
+  padding:35px;
+  border-radius:22px;
+}
+
+.contact-box h2{
+  font-size:32px;
+  margin-bottom:12px;
+}
+
+.contact-box p{
+  color:#cbd5e1;
+  font-size:14px;
+}
+
+.contact-item{
+  display:flex;
+  gap:13px;
+  margin-top:22px;
+}
+
+.contact-icon{
+  width:40px;
+  height:40px;
+  flex-shrink:0;
+  border-radius:10px;
+  background:rgba(255,255,255,.1);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.contact-label{
+  font-size:11px;
+  color:#94a3b8;
+}
+
+.contact-value{
+  font-weight:700;
+  font-size:14px;
+}
+
+.form-card{
+  background:#fff;
+  padding:32px;
+  border-radius:22px;
+  border:1px solid var(--border);
+}
+
+.form-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:17px;
+}
+
+.form-group{
+  margin-bottom:17px;
+}
+
+.form-group.full{
+  grid-column:1/-1;
+}
+
+.form-group label{
+  display:block;
+  font-size:13px;
+  font-weight:700;
+  margin-bottom:7px;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select{
+  width:100%;
+  padding:12px 13px;
+  border:1px solid #d0d5dd;
+  border-radius:10px;
+  outline:0;
+  background:#fff;
+}
+
+.form-group textarea{
+  min-height:130px;
+  resize:vertical;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus{
+  border-color:var(--primary);
+}
+
+/* ================= FOOTER ================= */
+
+footer{
+  background:#0b1220;
+  color:#fff;
+  padding:60px 0 25px;
+}
+
+.footer-grid{
+  display:grid;
+  grid-template-columns:1.4fr 1fr 1fr 1fr;
+  gap:40px;
+  margin-bottom:45px;
+}
+
+.footer-title{
+  font-size:16px;
+  font-weight:800;
+  margin-bottom:16px;
+}
+
+.footer p,
+.footer a{
+  color:#94a3b8;
+  font-size:13px;
+}
+
+.footer-links{
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+}
+
+.footer-bottom{
+  border-top:1px solid rgba(255,255,255,.1);
+  padding-top:20px;
+  color:#64748b;
+  font-size:12px;
+  display:flex;
+  justify-content:space-between;
+  gap:20px;
+}
+
+/* ================= MODAL ================= */
+
+.modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  z-index:3000;
+  background:rgba(15,23,42,.72);
+  padding:25px;
+  overflow:auto;
+}
+
+.modal.active{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.modal-box{
+  width:min(850px,100%);
+  background:#fff;
+  border-radius:22px;
+  max-height:90vh;
+  overflow:auto;
+  box-shadow:0 30px 80px rgba(0,0,0,.3);
+}
+
+.modal-head{
+  padding:22px 25px;
+  border-bottom:1px solid var(--border);
+  display:flex;
+  justify-content:space-between;
+  gap:20px;
+  align-items:center;
+}
+
+.modal-head h2{
+  font-size:24px;
+}
+
+.modal-close{
+  width:38px;
+  height:38px;
+  border:0;
+  border-radius:10px;
+  background:#f2f4f7;
+  cursor:pointer;
+  font-size:20px;
+}
+
+.modal-body{
+  padding:25px;
+}
+
+.detail-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:16px;
+  margin:20px 0;
+}
+
+.detail-item{
+  background:#f8fafc;
+  padding:15px;
+  border-radius:12px;
+}
+
+.detail-item small{
+  display:block;
+  color:var(--muted);
+  font-size:11px;
+  margin-bottom:4px;
+}
+
+.detail-item strong{
+  font-size:14px;
+}
+
+.detail-section{
+  margin-top:22px;
+}
+
+.detail-section h4{
+  margin-bottom:6px;
+}
+
+.detail-section p{
+  color:#475467;
+  font-size:14px;
+  white-space:pre-line;
+}
+
+/* ================= TOAST ================= */
+
+.toast{
+  position:fixed;
+  right:20px;
+  bottom:20px;
+  z-index:5000;
+  background:#111827;
+  color:#fff;
+  padding:14px 18px;
+  border-radius:10px;
+  font-size:13px;
+  transform:translateY(100px);
+  opacity:0;
+  pointer-events:none;
+  transition:.3s;
+}
+
+.toast.show{
+  transform:translateY(0);
+  opacity:1;
+}
+
+.toast.success{
+  background:#15803d;
+}
+
+.toast.error{
+  background:#b91c1c;
+}
+
+/* ================= LOADING ================= */
+
+.loading{
+  text-align:center;
+  padding:35px;
+  color:var(--muted);
+}
+
+.empty{
+  text-align:center;
+  padding:40px;
+  color:var(--muted);
+  grid-column:1/-1;
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media(max-width:1000px){
+
+  .nav-links{
+    display:none;
+  }
+
+  .mobile-menu-btn{
+    display:block;
+  }
+
+  .nav-actions .btn-outline{
+    display:none;
+  }
+
+  .stats-grid{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .stat:nth-child(2){
+    border-right:0;
+  }
+
+  .stat:nth-child(-n+2){
+    border-bottom:1px solid var(--border);
+  }
+
+  .search-results{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .categories{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .services-grid{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .gallery{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .testimonial-grid{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .about-grid{
+    grid-template-columns:1fr;
+  }
+
+  .about-image{
+    min-height:350px;
+  }
+
+  .enquiry-grid{
+    grid-template-columns:1fr;
+  }
+
+  .footer-grid{
+    grid-template-columns:1fr 1fr;
+  }
+}
+
+@media(max-width:650px){
+
+  section{
+    padding:65px 0;
+  }
+
+  .topbar-left{
+    display:none;
+  }
+
+  .topbar-inner{
+    justify-content:center;
+  }
+
+  .nav-inner{
+    min-height:65px;
+  }
+
+  .logo{
+    width:44px;
+    height:44px;
+  }
+
+  .logo-placeholder{
+    width:44px;
+    height:44px;
+  }
+
+  .brand-name{
+    font-size:15px;
+  }
+
+  .hero{
+    min-height:600px;
+  }
+
+  .hero h1{
+    font-size:42px;
+  }
+
+  .hero p{
+    font-size:15px;
+  }
+
+  .stats{
+    margin-top:-30px;
+  }
+
+  .stats-grid{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .stat{
+    padding:20px 10px;
+  }
+
+  .stat-number{
+    font-size:27px;
+  }
+
+  .section-head h2{
+    font-size:31px;
+  }
+
+  .search-box{
+    flex-direction:column;
+    gap:8px;
+    background:transparent;
+    box-shadow:none;
+    border:0;
+  }
+
+  .search-box input{
+    background:#fff;
+    border:1px solid var(--border);
+    border-radius:10px;
+  }
+
+  .search-results,
+  .categories,
+  .services-grid,
+  .testimonial-grid{
+    grid-template-columns:1fr;
+  }
+
+  .gallery{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .gallery-item{
+    height:180px;
+  }
+
+  .about-content h2{
+    font-size:33px;
+  }
+
+  .about-points{
+    grid-template-columns:1fr;
+  }
+
+  .info-banner{
+    padding:30px;
+    flex-direction:column;
+    align-items:flex-start;
+  }
+
+  .form-grid{
+    grid-template-columns:1fr;
+  }
+
+  .form-group.full{
+    grid-column:auto;
+  }
+
+  .footer-grid{
+    grid-template-columns:1fr;
+  }
+
+  .footer-bottom{
+    flex-direction:column;
+  }
+
+  .detail-grid{
+    grid-template-columns:1fr;
+  }
+
+  .modal{
+    padding:10px;
+  }
+}
+
+/* MOBILE MENU */
+
+.mobile-nav{
+  display:none;
+  background:#fff;
+  border-top:1px solid var(--border);
+  padding:15px 4%;
+}
+
+.mobile-nav.active{
+  display:block;
+}
+
+.mobile-nav a{
+  display:block;
+  padding:12px 0;
+  font-weight:650;
+  border-bottom:1px solid #f2f4f7;
+}
+</style>
+</head>
+
+<body>
+
+<!-- ================= TOPBAR ================= -->
+
+<div class="topbar">
+  <div class="container topbar-inner">
+
+    <div class="topbar-left">
+      <span id="topEmail">Loading...</span>
+      <span id="topPhone">Loading...</span>
+    </div>
+
+    <div class="topbar-right">
+      <span id="topLocation">Diagnostic Laboratory</span>
+    </div>
+
+  </div>
+</div>
+
+<!-- ================= NAVBAR ================= -->
+
+<header class="navbar">
+
+  <div class="container nav-inner">
+
+    <a href="#home" class="logo-wrap">
+
+      <img id="companyLogo"
+           class="logo"
+           src=""
+           alt="Company Logo"
+           style="display:none;">
+
+      <div id="logoPlaceholder" class="logo-placeholder">
+        DL
+      </div>
+
+      <div>
+        <div id="brandName" class="brand-name">
+          Diagnostic Laboratory
+        </div>
+
+        <div id="brandTagline" class="brand-tagline">
+          Quality Healthcare Services
+        </div>
+      </div>
+
+    </a>
+
+    <nav class="nav-links">
+      <a href="#home">Home</a>
+      <a href="#tests">Tests</a>
+      <a href="#services">Services</a>
+      <a href="#about">About</a>
+      <a href="#gallery">Gallery</a>
+      <a href="#faq">FAQ</a>
+      <a href="#contact">Contact</a>
+    </nav>
+
+    <div class="nav-actions">
+
+      <a id="navWhatsApp"
+         href="#"
+         target="_blank"
+         class="btn btn-outline">
+        WhatsApp
+      </a>
+
+      <a href="#contact" class="btn btn-primary">
+        Enquire Now
+      </a>
+
+      <button class="mobile-menu-btn"
+              onclick="toggleMobileMenu()">
+        ☰
+      </button>
+
+    </div>
+
+  </div>
+
+  <div id="mobileNav" class="mobile-nav">
+
+    <a href="#home" onclick="toggleMobileMenu()">Home</a>
+    <a href="#tests" onclick="toggleMobileMenu()">Tests</a>
+    <a href="#services" onclick="toggleMobileMenu()">Services</a>
+    <a href="#about" onclick="toggleMobileMenu()">About</a>
+    <a href="#gallery" onclick="toggleMobileMenu()">Gallery</a>
+    <a href="#faq" onclick="toggleMobileMenu()">FAQ</a>
+    <a href="#contact" onclick="toggleMobileMenu()">Contact</a>
+
+  </div>
+
+</header>
+
+<!-- ================= HERO ================= -->
+
+<section class="hero" id="home">
+
+  <div class="container">
+
+    <div class="hero-content">
+
+      <div class="badge">
+        Advanced Diagnostic Services
+      </div>
+
+      <h1 id="heroTitle">
+        Reliable Diagnostics For Better Healthcare
+      </h1>
+
+      <p id="heroDescription">
+        Comprehensive laboratory testing supported by modern diagnostic
+        processes and a quality-focused approach.
+      </p>
+
+      <div class="hero-buttons">
+
+        <a href="#tests" class="btn btn-primary">
+          Search Tests
+        </a>
+
+        <a id="heroWhatsApp"
+           href="#"
+           target="_blank"
+           class="btn btn-outline">
+          Book Test
+        </a>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+<!-- ================= STATS ================= -->
+
+<div class="stats">
+
+  <div class="container">
+
+    <div class="stats-grid">
+
+      <div class="stat">
+        <div id="statTests" class="stat-number">0</div>
+        <div class="stat-label">Diagnostic Tests</div>
+      </div>
+
+      <div class="stat">
+        <div id="statCategories" class="stat-number">0</div>
+        <div class="stat-label">Test Categories</div>
+      </div>
+
+      <div class="stat">
+        <div class="stat-number">24/7</div>
+        <div class="stat-label">Patient Support</div>
+      </div>
+
+      <div class="stat">
+        <div class="stat-number">✓</div>
+        <div class="stat-label">Quality Focused</div>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<!-- ================= TEST SEARCH ================= -->
+
+<section class="search-section" id="tests">
+
+  <div class="container">
+
+    <div class="section-head">
+
+      <div class="eyebrow">
+        Test Directory
+      </div>
+
+      <h2>Find Your Test</h2>
+
+      <p>
+        Search our diagnostic test directory by test name,
+        test code or description.
+      </p>
+
+    </div>
+
+    <div class="search-box">
+
+      <input
+        id="testSearch"
+        type="text"
+        placeholder="Search test name, code or keyword..."
+        oninput="searchTests()">
+
+      <button class="btn btn-primary"
+              onclick="searchTests()">
+        Search
+      </button>
+
+    </div>
+
+    <div id="testResults"
+         class="search-results">
+
+      <div class="loading">
+        Loading tests...
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+<!-- ================= CATEGORIES ================= -->
+
+<section id="categories">
+
+  <div class="container">
+
+    <div class="section-head">
+
+      <div class="eyebrow">
+        Departments
+      </div>
+
+      <h2>Diagnostic Categories</h2>
+
+      <p>
+        Explore tests according to diagnostic category.
+      </p>
+
+    </div>
+
+    <div id="categoriesGrid"
+         class="categories">
+
+      <div class="loading">
+        Loading categories...
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+<!-- ================= SERVICES ================= -->
+
+<section id="services"
+         style="background:var(--light);">
+
+  <div class="container">
+
+    <div class="section-head">
+
+      <div class="eyebrow">
+        Our Services
+      </div>
+
+      <h2>Complete Diagnostic Solutions</h2>
+
+      <p>
+        Laboratory services designed around convenience,
+        accessibility and quality-focused processes.
+      </p>
+
+    </div>
+
+    <div class="services-grid">
+
+      <div class="service-card">
+
+        <div class="service-icon">🧪</div>
+
+        <h3>Routine Testing</h3>
+
+        <p>
+          Comprehensive routine laboratory investigations
+          for regular health monitoring.
+        </p>
+
+      </div>
+
+      <div class="service-card">
+
+        <div class="service-icon">🔬</div>
+
+        <h3>Specialized Tests</h3>
+
+        <p>
+          Access to a broad range of specialized
+          diagnostic investigations.
+        </p>
+
+      </div>
+
+      <div class="service-card">
+
+        <div class="service-icon">🏠</div>
+
+        <h3>Home Collection</h3>
+
+        <p>
+          Convenient sample collection services
+          subject to local availability.
+        </p>
+
+      </div>
+
+      <div class="service-card">
+
+        <div class="service-icon">📋</div>
+
+        <h3>Digital Reports</h3>
+
+        <p>
+          Easy access to laboratory reports and
+          diagnostic information.
+        </p>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+<!-- ================= ABOUT ================= -->
+
+<section class="about" id="about">
+
+  <div class="container">
+
+    <div class="about-grid">
+
+      <div class="about-image"></div>
+
+      <div class="about-content">
+
+        <div class="section-head"
+             style="text-align:left;margin:0 0 20px;">
+
+          <div class="eyebrow">
+            About Us
+          </div>
+
+          <h2 id="aboutTitle">
+            Diagnostic Care With A Quality-First Approach
+          </h2>
+
+        </div>
+
+        <p id="aboutText">
+          Loading company profile...
+        </p>
+
+        <div class="about-points">
+
+          <div class="point">
+            <span class="point-icon">✓</span>
+            Quality-focused laboratory processes
+          </div>
+
+          <div class="point">
+            <span class="point-icon">✓</span>
+            Modern diagnostic workflow
+          </div>
+
+          <div class="point">
+            <span class="point-icon">✓</span>
+            Patient-friendly services
+          </div>
+
+          <div class="point">
+            <span class="point-icon">✓</span>
+            Digital-first reporting
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+<!-- ================= MISSION VISION ================= -->
+
+<section>
+
+  <div class="container">
+
+    <div class="info-banner">
+
+      <div>
+
+        <h2 id="missionTitle">
+          Our Mission
+        </h2>
+
+        <p id="missionText">
+          Providing accessible and quality-focused diagnostic services.
+        </p>
+
+      </div>
+
+      <div>
+
+        <h2 id="visionTitle">
+          Our Vision
+        </h2>
+
+        <p id="visionText">
+          Building trust through responsible diagnostic healthcare services.
+        </p>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+<!-- ================= GALLERY ================= -->
+
+<section id="gallery">
+
+  <div class="container">
+
+    <div class="section-head">
+
+      <div class="eyebrow">
+        Gallery
+      </div>
+
+      <h2>Our Laboratory</h2>
+
+      <p>
+        Explore our laboratory, facilities and services.
+      </p>
+
+    </div>
+
+    <div id="galleryGrid"
+         class="gallery">
+
+      <div class="loading">
+        Loading gallery...
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+<!-- ================= TESTIMONIALS ================= -->
+
+<section class="testimonials">
+
+  <div class="container">
+
+    <div class="section-head">
+
+      <div class="eyebrow">
+        Patient Feedback
+      </div>
+
+      <h2>What People Say</h2>
+
+      <p>
+        Feedback from patients and healthcare partners.
+      </p>
+
+    </div>
+
+    <div id="testimonialGrid"
+         class="testimonial-grid">
+
+      <div class="loading">
+        Loading testimonials...
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+<!-- ================= FAQ ================= -->
+
+<section id="faq">
+
+  <div class="container">
+
+    <div class="section-head">
+
+      <div class="eyebrow">
+        FAQ
+      </div>
+
+      <h2>Frequently Asked Questions</h2>
+
+      <p>
+        Find answers to common questions about our services.
+      </p>
+
+    </div>
+
+    <div id="faqList"
+         class="faq-list">
+
+      <div class="loading">
+        Loading FAQs...
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+<!-- ================= ENQUIRY ================= -->
+
+<section class="enquiry" id="contact">
+
+  <div class="container">
+
+    <div class="enquiry-grid">
+
+      <div class="contact-box">
+
+        <h2>Get In Touch</h2>
+
+        <p>
+          Contact our team for test enquiries,
+          appointments, home collection and other
+          diagnostic service information.
+        </p>
+
+        <div class="contact-item">
+
+          <div class="contact-icon">☎</div>
+
+          <div>
+            <div class="contact-label">Phone</div>
+            <div id="contactPhone"
+                 class="contact-value">
+              -
+            </div>
+          </div>
+
+        </div>
+
+        <div class="contact-item">
+
+          <div class="contact-icon">✉</div>
+
+          <div>
+            <div class="contact-label">Email</div>
+            <div id="contactEmail"
+                 class="contact-value">
+              -
+            </div>
+          </div>
+
+        </div>
+
+        <div class="contact-item">
+
+          <div class="contact-icon">📍</div>
+
+          <div>
+            <div class="contact-label">Address</div>
+            <div id="contactAddress"
+                 class="contact-value">
+              -
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="form-card">
+
+        <h2 style="margin-bottom:7px;">
+          Send An Enquiry
+        </h2>
+
+        <p style="color:var(--muted);font-size:13px;margin-bottom:25px;">
+          Fill the form and our team will contact you.
+        </p>
+
+        <form id="enquiryForm">
+
+          <div class="form-grid">
+
+            <div class="form-group">
+
+              <label>Name *</label>
+
+              <input
+                id="enquiryName"
+                required
+                type="text"
+                placeholder="Your name">
+
+            </div>
+
+            <div class="form-group">
+
+              <label>Phone *</label>
+
+              <input
+                id="enquiryPhone"
+                required
+                type="tel"
+                placeholder="Mobile number">
+
+            </div>
+
+            <div class="form-group">
+
+              <label>Email</label>
+
+              <input
+                id="enquiryEmail"
+                type="email"
+                placeholder="Email address">
+
+            </div>
+
+            <div class="form-group">
+
+              <label>Test / Service</label>
+
+              <input
+                id="enquirySubject"
+                type="text"
+                placeholder="Test name">
+
+            </div>
+
+            <div class="form-group full">
+
+              <label>Message *</label>
+
+              <textarea
+                id="enquiryMessage"
+                required
+                placeholder="Write your enquiry..."></textarea>
+
+            </div>
+
+          </div>
+
+          <button
+            id="enquiryButton"
+            type="submit"
+            class="btn btn-primary"
+            style="width:100%;">
+            Send Enquiry
+          </button>
+
+        </form>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+<!-- ================= FOOTER ================= -->
+
+<footer>
+
+  <div class="container footer">
+
+    <div class="footer-grid">
+
+      <div>
+
+        <div class="footer-title"
+             id="footerCompanyName">
+          Diagnostic Laboratory
+        </div>
+
+        <p id="footerAbout">
+          Quality-focused diagnostic services.
+        </p>
+
+        <div style="margin-top:18px;display:flex;gap:12px;">
+
+          <a id="facebookLink"
+             href="#"
+             target="_blank">
+            Facebook
+          </a>
+
+          <a id="instagramLink"
+             href="#"
+             target="_blank">
+            Instagram
+          </a>
+
+        </div>
+
+      </div>
+
+      <div>
+
+        <div class="footer-title">
+          Quick Links
+        </div>
+
+        <div class="footer-links">
+
+          <a href="#home">Home</a>
+          <a href="#tests">Tests</a>
+          <a href="#services">Services</a>
+          <a href="#about">About</a>
+          <a href="#contact">Contact</a>
+
+        </div>
+
+      </div>
+
+      <div>
+
+        <div class="footer-title">
+          Services
+        </div>
+
+        <div class="footer-links">
+
+          <a href="#tests">Diagnostic Tests</a>
+          <a href="#services">Home Collection</a>
+          <a href="#services">Digital Reports</a>
+          <a href="#contact">Enquiry</a>
+
+        </div>
+
+      </div>
+
+      <div>
+
+        <div class="footer-title">
+          Contact
+        </div>
+
+        <div class="footer-links">
+
+          <a id="footerPhone" href="#">
+            Phone
+          </a>
+
+          <a id="footerEmail" href="#">
+            Email
+          </a>
+
+          <a href="#contact">
+            Get Directions
+          </a>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="footer-bottom">
+
+      <div>
+        © <span id="year"></span>
+        <span id="copyrightName">
+          Diagnostic Laboratory
+        </span>.
+        All rights reserved.
+      </div>
+
+      <div>
+        Designed & Developed by MDKF
+      </div>
+
+    </div>
+
+  </div>
+
+</footer>
+
+<!-- ================= TEST MODAL ================= -->
+
+<div id="testModal"
+     class="modal"
+     onclick="closeModalOutside(event)">
+
+  <div class="modal-box">
+
+    <div class="modal-head">
+
+      <h2 id="modalTestName">
+        Test Details
+      </h2>
+
+      <button class="modal-close"
+              onclick="closeTestModal()">
+        ×
+      </button>
+
+    </div>
+
+    <div class="modal-body">
+
+      <img id="modalTestImage"
+           src=""
+           alt=""
+           style="width:100%;max-height:300px;object-fit:cover;border-radius:15px;display:none;">
+
+      <div class="detail-grid">
+
+        <div class="detail-item">
+
+          <small>Test Code</small>
+
+          <strong id="modalCode">-</strong>
+
+        </div>
+
+        <div class="detail-item">
+
+          <small>Category</small>
+
+          <strong id="modalCategory">-</strong>
+
+        </div>
+
+        <div class="detail-item">
+
+          <small>Sample</small>
+
+          <strong id="modalSample">-</strong>
+
+        </div>
+
+        <div class="detail-item">
+
+          <small>TAT</small>
+
+          <strong id="modalTat">-</strong>
+
+        </div>
+
+        <div class="detail-item">
+
+          <small>Fasting</small>
+
+          <strong id="modalFasting">-</strong>
+
+        </div>
+
+        <div class="detail-item">
+
+          <small>Test Schedule</small>
+
+          <strong id="modalSchedule">-</strong>
+
+        </div>
+
+      </div>
+
+      <div class="detail-section">
+
+        <h4>Clinical Significance</h4>
+
+        <p id="modalClinical">
+          -
+        </p>
+
+      </div>
+
+      <div class="detail-section">
+
+        <h4>Patient Preparation</h4>
+
+        <p id="modalPreparation">
+          -
+        </p>
+
+      </div>
+
+      <div class="detail-section">
+
+        <h4>Method</h4>
+
+        <p id="modalMethod">
+          -
+        </p>
+
+      </div>
+
+      <div class="detail-section">
+
+        <h4>Description</h4>
+
+        <p id="modalDescription">
+          -
+        </p>
+
+      </div>
+
+      <div class="card-actions"
+           style="margin-top:25px;">
+
+        <button class="btn btn-primary"
+                onclick="bookCurrentTest()">
+          Book Test
+        </button>
+
+        <a id="modalCatalogue"
+           href="#"
+           target="_blank"
+           class="btn btn-outline"
+           style="display:none;">
+          Download Catalogue
+        </a>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<!-- ================= TOAST ================= -->
+
+<div id="toast"
+     class="toast">
+</div>
+
+<script>
+
+/* ============================================================
+   SUPABASE CONFIGURATION
+   ============================================================ */
+
+const SUPABASE_URL =
+  'https://ywvdozdoanmcxscfofcf.supabase.co';
+
+const SUPABASE_KEY =
+  'sb_publishable_aAqO96BmDbYivhlgl_3z7g_1orXAscB';
+
+/*
+  IMPORTANT:
+
+  Put your Micron Laboratory CLIENT UUID here.
+
+  Example:
+
+  const CLIENT_ID = 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx';
+
+*/
+
+const CLIENT_ID =
+  'PASTE_MICRON_CLIENT_ID_HERE';
+
+
+const { createClient } =
+  supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
+
+
+/* ============================================================
+   GLOBAL DATA
+   ============================================================ */
+
+let companySettings = null;
+
+let tests = [];
+
+let categories = [];
+
+let gallery = [];
+
+let testimonials = [];
+
+let faqs = [];
+
+let currentTest = null;
+
+
+/* ============================================================
+   INITIALIZATION
+   ============================================================ */
+
+document.addEventListener(
+  'DOMContentLoaded',
+  async function(){
+
+    document.getElementById('year').textContent =
+      new Date().getFullYear();
+
+    if(
+      !CLIENT_ID ||
+      CLIENT_ID === 'PASTE_MICRON_CLIENT_ID_HERE'
+    ){
+
+      showToast(
+        'Please add Micron Laboratory CLIENT_ID in index.html',
+        'error'
+      );
+
+      document.getElementById('testResults').innerHTML =
+        `<div class="empty">
+          CLIENT_ID is not configured.
+        </div>`;
+
+      return;
+    }
+
+    await loadWebsite();
+
+  }
+);
+
+
+/* ============================================================
+   MAIN LOADER
+   ============================================================ */
+
+async function loadWebsite(){
+
+  try{
+
+    await Promise.all([
+      loadCompanySettings(),
+      loadCategories(),
+      loadTests(),
+      loadGallery(),
+      loadTestimonials(),
+      loadFAQs()
+    ]);
+
+    renderAll();
+
+  }catch(error){
+
+    console.error(error);
+
+    showToast(
+      'Some website data could not be loaded.',
+      'error'
+    );
+
+  }
+
+}
+
+
+/* ============================================================
+   COMPANY SETTINGS
+   ============================================================ */
+
+async function loadCompanySettings(){
+
+  const {
+    data,
+    error
+  } = await supabase
+    .from('company_settings')
+    .select('*')
+    .eq('client_id', CLIENT_ID)
+    .limit(1)
+    .maybeSingle();
+
+  if(error){
+
+    console.error(
+      'Company Settings Error:',
+      error
+    );
+
+    return;
+
+  }
+
+  companySettings = data || {};
+
+}
+
+
+/* ============================================================
+   CATEGORIES
+   ============================================================ */
+
+async function loadCategories(){
+
+  const {
+    data,
+    error
+  } = await supabase
+    .from('categories')
+    .select('*')
+    .eq('client_id', CLIENT_ID)
+    .order('name', {
+      ascending:true
+    });
+
+  if(error){
+
+    console.error(
+      'Categories Error:',
+      error
+    );
+
+    categories = [];
+
+    return;
+
+  }
+
+  categories = data || [];
+
+}
+
+
+/* ============================================================
+   TESTS / PRODUCTS
+   ============================================================ */
+
+async function loadTests(){
+
+  const {
+    data,
+    error
+  } = await supabase
+    .from('products')
+    .select('*')
+    .eq('client_id', CLIENT_ID)
+    .order('name', {
+      ascending:true
+    });
+
+  if(error){
+
+    console.error(
+      'Products Error:',
+      error
+    );
+
+    tests = [];
+
+    return;
+
+  }
+
+  tests = data || [];
+
+}
+
+
+/* ============================================================
+   GALLERY
+   ============================================================ */
+
+async function loadGallery(){
+
+  try{
+
+    const {
+      data,
+      error
+    } = await supabase
+      .from('gallery')
+      .select('*')
+      .eq('client_id', CLIENT_ID);
+
+    if(error){
+
+      console.warn(
+        'Gallery table/data unavailable:',
+        error.message
+      );
+
+      gallery = [];
+
+      return;
+
+    }
+
+    gallery = data || [];
+
+  }catch(error){
+
+    gallery = [];
+
+  }
+
+}
+
+
+/* ============================================================
+   TESTIMONIALS
+   ============================================================ */
+
+async function loadTestimonials(){
+
+  try{
+
+    const {
+      data,
+      error
+    } = await supabase
+      .from('testimonials')
+      .select('*')
+      .eq('client_id', CLIENT_ID);
+
+    if(error){
+
+      console.warn(
+        'Testimonials Error:',
+        error.message
+      );
+
+      testimonials = [];
+
+      return;
+
+    }
+
+    testimonials = data || [];
+
+  }catch(error){
+
+    testimonials = [];
+
+  }
+
+}
+
+
+/* ============================================================
+   FAQS
+   ============================================================ */
+
+async function loadFAQs(){
+
+  const {
+    data,
+    error
+  } = await supabase
+    .from('faqs')
+    .select('*')
+    .eq('client_id', CLIENT_ID)
+    .eq('status', 'active')
+    .order('sort_order', {
+      ascending:true
+    });
+
+  if(error){
+
+    console.error(
+      'FAQ Error:',
+      error
+    );
+
+    faqs = [];
+
+    return;
+
+  }
+
+  faqs = data || [];
+
+}
+
+
+/* ============================================================
+   RENDER ALL
+   ============================================================ */
+
+function renderAll(){
+
+  renderCompany();
+
+  renderStats();
+
+  renderCategories();
+
+  renderTests(tests);
+
+  renderGallery();
+
+  renderTestimonials();
+
+  renderFAQs();
+
+}
+
+
+/* ============================================================
+   COMPANY RENDER
+   ============================================================ */
+
+function renderCompany(){
+
+  const c =
+    companySettings || {};
+
+  const companyName =
+    getValue(
+      c.company_name,
+      'Diagnostic Laboratory'
+    );
+
+  /*
+    company_settings normally doesn't contain company_name
+    in the schema, so fallback to website title/tagline.
+  */
+
+  const displayName =
+    getValue(
+      c.website_title,
+      getValue(
+        c.company_name,
+        'Diagnostic Laboratory'
+      )
+    );
+
+  document.title =
+    getValue(
+      c.website_title,
+      displayName
+    );
+
+  const meta =
+    document.querySelector(
+      'meta[name="description"]'
+    );
+
+  if(meta){
+
+    meta.setAttribute(
+      'content',
+      getValue(
+        c.meta_description,
+        'Diagnostic laboratory services'
+      )
+    );
+
+  }
+
+
+  /* LOGO */
+
+  if(c.logo_url){
+
+    const logo =
+      document.getElementById(
+        'companyLogo'
+      );
+
+    logo.src =
+      c.logo_url;
+
+    logo.style.display =
+      'block';
+
+    document.getElementById(
+      'logoPlaceholder'
+    ).style.display =
+      'none';
+
+  }
+
+
+  /* FAVICON */
+
+  if(c.favicon_url){
+
+    document.getElementById(
+      'favicon'
+    ).href =
+      c.favicon_url;
+
+  }
+
+
+  /* BRAND */
+
+  setText(
+    'brandName',
+    displayName
+  );
+
+  setText(
+    'brandTagline',
+    getValue(
+      c.tagline,
+      'Quality Healthcare Services'
+    )
+  );
+
+  setText(
+    'footerCompanyName',
+    displayName
+  );
+
+  setText(
+    'copyrightName',
+    displayName
+  );
+
+
+  /* HERO */
+
+  setText(
+    'heroTitle',
+    getValue(
+      c.tagline,
+      'Reliable Diagnostics For Better Healthcare'
+    )
+  );
+
+  setText(
+    'heroDescription',
+    getValue(
+      c.about,
+      'Comprehensive diagnostic services supported by a quality-focused approach.'
+    )
+  );
+
+
+  /* ABOUT */
+
+  setText(
+    'aboutText',
+    getValue(
+      c.about,
+      'We provide diagnostic laboratory services with a focus on quality, accessibility and patient convenience.'
+    )
+  );
+
+
+  /* MISSION */
+
+  setText(
+    'missionText',
+    getValue(
+      c.mission,
+      'To provide accessible and quality-focused diagnostic services.'
+    )
+  );
+
+
+  /* VISION */
+
+  setText(
+    'visionText',
+    getValue(
+      c.vision,
+      'To build trust through responsible diagnostic healthcare services.'
+    )
+  );
+
+
+  /* CONTACT */
+
+  const phone =
+    getValue(
+      c.phone,
+      ''
+    );
+
+  const whatsapp =
+    getValue(
+      c.whatsapp,
+      phone
+    );
+
+  const email =
+    getValue(
+      c.email,
+      ''
+    );
+
+
+  const address =
+    [
+      c.address,
+      c.city,
+      c.state,
+      c.country,
+      c.postal_code
+    ]
+    .filter(Boolean)
+    .join(', ');
+
+
+  setText(
+    'topPhone',
+    phone || 'Contact us'
+  );
+
+  setText(
+    'topEmail',
+    email || ''
+  );
+
+  setText(
+    'topLocation',
+    address ||
+    'Diagnostic Laboratory'
+  );
+
+  setText(
+    'contactPhone',
+    phone || '-'
+  );
+
+  setText(
+    'contactEmail',
+    email || '-'
+  );
+
+  setText(
+    'contactAddress',
+    address || '-'
+  );
+
+
+  /* PHONE LINK */
+
+  const phoneLink =
+    'tel:' +
+    phone.replace(
+      /[^0-9+]/g,
+      ''
+    );
+
+  document.getElementById(
+    'footerPhone'
+  ).href =
+    phone ?
+    phoneLink :
+    '#';
+
+
+  document.getElementById(
+    'footerPhone'
+  ).textContent =
+    phone ||
+    'Phone';
+
+
+  /* EMAIL LINK */
+
+  document.getElementById(
+    'footerEmail'
+  ).href =
+    email ?
+    'mailto:' + email :
+    '#';
+
+  document.getElementById(
+    'footerEmail'
+  ).textContent =
+    email ||
+    'Email';
+
+
+  /* WHATSAPP */
+
+  if(whatsapp){
+
+    const cleanWhatsApp =
+      whatsapp.replace(
+        /[^0-9]/g,
+        ''
+      );
+
+    const waURL =
+      'https://wa.me/' +
+      cleanWhatsApp;
+
+    document.getElementById(
+      'navWhatsApp'
+    ).href =
+      waURL;
+
+    document.getElementById(
+      'heroWhatsApp'
+    ).href =
+      waURL;
+
+  }
+
+
+  /* SOCIAL */
+
+  setLink(
+    'facebookLink',
+    c.facebook_url
+  );
+
+  setLink(
+    'instagramLink',
+    c.instagram_url
+  );
+
+
+  /* COLORS */
+
+  if(c.primary_color){
+
+    document.documentElement
+      .style
+      .setProperty(
+        '--primary',
+        c.primary_color
+      );
+
+  }
+
+  if(c.secondary_color){
+
+    document.documentElement
+      .style
+      .setProperty(
+        '--secondary',
+        c.secondary_color
+      );
+
+  }
+
+}
+
+
+/* ============================================================
+   STATS
+   ============================================================ */
+
+function renderStats(){
+
+  setText(
+    'statTests',
+    tests.length
+  );
+
+  setText(
+    'statCategories',
+    categories.length
+  );
+
+}
+
+
+/* ============================================================
+   CATEGORIES
+   ============================================================ */
+
+function renderCategories(){
+
+  const container =
+    document.getElementById(
+      'categoriesGrid'
+    );
+
+  if(!categories.length){
+
+    container.innerHTML =
+      `<div class="empty">
+        No categories available.
+      </div>`;
+
+    return;
+
+  }
+
+
+  container.innerHTML =
+    categories
+      .filter(
+        c =>
+          c.status === undefined ||
+          c.status === null ||
+          c.status === 'active' ||
+          c.status === true
+      )
+      .map(
+        category => {
+
+          const name =
+            getValue(
+              category.name,
+              'Category'
+            );
+
+          return `
+
+            <div class="category-card"
+                 onclick="filterByCategory('${escapeAttr(category.id || category.slug || name)}')">
+
+              <div class="category-icon">
+                🧪
+              </div>
+
+              <h3>
+                ${escapeHTML(name)}
+              </h3>
+
+            </div>
+
+          `;
+
+        }
+      )
+      .join('');
+
+}
+
+
+/* ============================================================
+   TESTS
+   ============================================================ */
+
+function renderTests(list){
+
+  const container =
+    document.getElementById(
+      'testResults'
+    );
+
+
+  if(!list.length){
+
+    container.innerHTML =
+      `<div class="empty">
+        No tests found.
+      </div>`;
+
+    return;
+
+  }
+
+
+  container.innerHTML =
+    list
+      .slice(0,30)
+      .map(
+        test => {
+
+          const image =
+            getValue(
+              test.main_image_url,
+              'https://images.unsplash.com/photo-1579154204601-01588f351e67?auto=format&fit=crop&w=800&q=80'
+            );
+
+          const name =
+            getValue(
+              test.name,
+              'Diagnostic Test'
+            );
+
+          const code =
+            getValue(
+              test.product_code,
+              ''
+            );
+
+          const description =
+            getValue(
+              test.short_description,
+              test.description ||
+              'Diagnostic laboratory investigation.'
+            );
+
+
+          return `
+
+            <div class="card test-card">
+
+              <img
+                class="test-image"
+                src="${escapeAttr(image)}"
+                alt="${escapeAttr(name)}"
+                onerror="this.src='https://images.unsplash.com/photo-1579154204601-01588f351e67?auto=format&fit=crop&w=800&q=80';">
+
+              <div class="test-info">
+
+                ${
+                  code
+                  ?
+                  `<span class="test-code">
+                    ${escapeHTML(code)}
+                  </span>`
+                  :
+                  ''
+                }
+
+                <h3>
+                  ${escapeHTML(name)}
+                </h3>
+
+                <p>
+                  ${escapeHTML(
+                    truncate(
+                      description,
+                      105
+                    )
+                  )}
+                </p>
+
+                <div class="card-actions">
+
+                  <button
+                    class="btn btn-outline"
+                    onclick="openTestModal('${escapeAttr(test.id)}')">
+                    View Details
+                  </button>
+
+                  <button
+                    class="btn btn-primary"
+                    onclick="bookTest('${escapeAttr(test.id)}')">
+                    Book Test
+                  </button>
+
+                </div>
+
+              </div>
+
+            </div>
+
+          `;
+
+        }
+      )
+      .join('');
+
+}
+
+
+/* ============================================================
+   TEST SEARCH
+   ============================================================ */
+
+function searchTests(){
+
+  const input =
+    document.getElementById(
+      'testSearch'
+    );
+
+  const keyword =
+    input.value
+      .toLowerCase()
+      .trim();
+
+
+  if(!keyword){
+
+    renderTests(tests);
+
+    return;
+
+  }
+
+
+  const filtered =
+    tests.filter(
+      test => {
+
+        const text =
+          [
+            test.name,
+            test.product_code,
+            test.short_description,
+            test.description,
+            test.specification,
+            test.applications
+          ]
+          .filter(Boolean)
+          .join(' ')
+          .toLowerCase();
+
+        return text.includes(keyword);
+
+      }
+    );
+
+
+  renderTests(filtered);
+
+}
+
+
+/* ============================================================
+   CATEGORY FILTER
+   ============================================================ */
+
+function filterByCategory(categoryId){
+
+  const category =
+    categories.find(
+      c =>
+        String(c.id) ===
+        String(categoryId)
+        ||
+        String(c.slug) ===
+        String(categoryId)
+    );
+
+
+  if(!category){
+
+    return;
+
+  }
+
+
+  const filtered =
+    tests.filter(
+      test => {
+
+        return (
+          String(test.category_id) ===
+          String(category.id)
+        );
+
+      }
+    );
+
+
+  document.getElementById(
+    'testSearch'
+  ).value =
+    category.name || '';
+
+
+  renderTests(filtered);
+
+
+  document.getElementById(
+    'tests'
+  ).scrollIntoView({
+    behavior:'smooth'
+  });
+
+}
+
+
+/* ============================================================
+   TEST MODAL
+   ============================================================ */
+
+function openTestModal(id){
+
+  const test =
+    tests.find(
+      item =>
+        String(item.id) ===
+        String(id)
+    );
+
+
+  if(!test){
+
+    return;
+
+  }
+
+
+  currentTest =
+    test;
+
+
+  const category =
+    categories.find(
+      c =>
+        String(c.id) ===
+        String(test.category_id)
+    );
+
+
+  setText(
+    'modalTestName',
+    getValue(
+      test.name,
+      'Test Details'
+    )
+  );
+
+
+  setText(
+    'modalCode',
+    getValue(
+      test.product_code,
+      '-'
+    )
+  );
+
+
+  setText(
+    'modalCategory',
+    category ?
+    category.name :
+    '-'
+  );
+
+
+  setText(
+    'modalSample',
+    getFirst(
+      test,
+      [
+        'sample',
+        'sample_type',
+        'specimen'
+      ],
+      '-'
+    )
+  );
+
+
+  setText(
+    'modalTat',
+    getFirst(
+      test,
+      [
+        'tat',
+        'turnaround_time'
+      ],
+      '-'
+    )
+  );
+
+
+  setText(
+    'modalFasting',
+    getFirst(
+      test,
+      [
+        'fasting',
+        'fasting_required'
+      ],
+      '-'
+    )
+  );
+
+
+  setText(
+    'modalSchedule',
+    getFirst(
+      test,
+      [
+        'test_schedule',
+        'schedule'
+      ],
+      '-'
+    )
+  );
+
+
+  setText(
+    'modalClinical',
+    getFirst(
+      test,
+      [
+        'clinical_significance',
+        'clinical'
+      ],
+      '-'
+    )
+  );
+
+
+  setText(
+    'modalPreparation',
+    getFirst(
+      test,
+      [
+        'patient_preparation',
+        'preparation'
+      ],
+      '-'
+    )
+  );
+
+
+  setText(
+    'modalMethod',
+    getFirst(
+      test,
+      [
+        'method',
+        'methodology'
+      ],
+      '-'
+    )
+  );
+
+
+  setText(
+    'modalDescription',
+    getValue(
+      test.description,
+      test.short_description ||
+      '-'
+    )
+  );
+
+
+  const image =
+    document.getElementById(
+      'modalTestImage'
+    );
+
+
+  if(test.main_image_url){
+
+    image.src =
+      test.main_image_url;
+
+    image.style.display =
+      'block';
+
+  }else{
+
+    image.style.display =
+      'none';
+
+  }
+
+
+  const catalogue =
+    document.getElementById(
+      'modalCatalogue'
+    );
+
+
+  if(test.catalogue_url){
+
+    catalogue.href =
+      test.catalogue_url;
+
+    catalogue.style.display =
+      'inline-flex';
+
+  }else{
+
+    catalogue.style.display =
+      'none';
+
+  }
+
+
+  document.getElementById(
+    'testModal'
+  ).classList.add(
+    'active'
+  );
+
+}
+
+
+function closeTestModal(){
+
+  document.getElementById(
+    'testModal'
+  ).classList.remove(
+    'active'
+  );
+
+  currentTest =
+    null;
+
+}
+
+
+function closeModalOutside(event){
+
+  if(
+    event.target.id ===
+    'testModal'
+  ){
+
+    closeTestModal();
+
+  }
+
+}
+
+
+/* ============================================================
+   BOOK TEST
+   ============================================================ */
+
+function bookTest(id){
+
+  const test =
+    tests.find(
+      item =>
+        String(item.id) ===
+        String(id)
+    );
+
+
+  if(!test){
+
+    return;
+
+  }
+
+
+  const name =
+    getValue(
+      test.name,
+      ''
+    );
+
+
+  document.getElementById(
+    'enquirySubject'
+  ).value =
+    name;
+
+
+  document.getElementById(
+    'enquiryMessage'
+  ).value =
+    'I would like to enquire/book the following test: ' +
+    name;
+
+
+  document.getElementById(
+    'contact'
+  ).scrollIntoView({
+    behavior:'smooth'
+  });
+
+
+  setTimeout(
+    () => {
+
+      document.getElementById(
+        'enquiryName'
+      ).focus();
+
+    },
+    600
+  );
+
+}
+
+
+function bookCurrentTest(){
+
+  if(currentTest){
+
+    bookTest(
+      currentTest.id
+    );
+
+    closeTestModal();
+
+  }
+
+}
+
+
+/* ============================================================
+   GALLERY
+   ============================================================ */
+
+function renderGallery(){
+
+  const container =
+    document.getElementById(
+      'galleryGrid'
+    );
+
+
+  if(!gallery.length){
+
+    container.innerHTML =
+      `
+      <div class="empty">
+        Gallery images will appear here.
+      </div>
+      `;
+
+    return;
+
+  }
+
+
+  container.innerHTML =
+    gallery
+      .map(
+        item => {
+
+          const image =
+            getFirst(
+              item,
+              [
+                'image_url',
+                'url',
+                'image',
+                'photo_url'
+              ],
+              ''
+            );
+
+
+          if(!image){
+
+            return '';
+
+          }
+
+
+          return `
+
+            <div class="gallery-item">
+
+              <img
+                src="${escapeAttr(image)}"
+                alt="${escapeAttr(
+                  getFirst(
+                    item,
+                    [
+                      'title',
+                      'alt_text',
+                      'name'
+                    ],
+                    'Laboratory'
+                  )
+                )}"
+                loading="lazy">
+
+            </div>
+
+          `;
+
+        }
+      )
+      .join('');
+
+}
+
+
+/* ============================================================
+   TESTIMONIALS
+   ============================================================ */
+
+function renderTestimonials(){
+
+  const container =
+    document.getElementById(
+      'testimonialGrid'
+    );
+
+
+  if(!testimonials.length){
+
+    container.innerHTML =
+      `
+      <div class="empty">
+        Patient feedback will appear here.
+      </div>
+      `;
+
+    return;
+
+  }
+
+
+  container.innerHTML =
+    testimonials
+      .slice(0,6)
+      .map(
+        item => {
+
+          const text =
+            getFirst(
+              item,
+              [
+                'testimonial',
+                'message',
+                'review',
+                'content',
+                'text'
+              ],
+              ''
+            );
+
+
+          const name =
+            getFirst(
+              item,
+              [
+                'name',
+                'client_name',
+                'customer_name',
+                'author_name'
+              ],
+              'Patient'
+            );
+
+
+          const role =
+            getFirst(
+              item,
+              [
+                'designation',
+                'role',
+                'position'
+              ],
+              'Patient'
+            );
+
+
+          return `
+
+            <div class="testimonial-card">
+
+              <div class="stars">
+                ★★★★★
+              </div>
+
+              <div class="testimonial-text">
+                ${escapeHTML(text)}
+              </div>
+
+              <div class="testimonial-name">
+                ${escapeHTML(name)}
+              </div>
+
+              <div class="testimonial-role">
+                ${escapeHTML(role)}
+              </div>
+
+            </div>
+
+          `;
+
+        }
+      )
+      .join('');
+
+}
+
+
+/* ============================================================
+   FAQ
+   ============================================================ */
+
+function renderFAQs(){
+
+  const container =
+    document.getElementById(
+      'faqList'
+    );
+
+
+  if(!faqs.length){
+
+    container.innerHTML =
+      `
+      <div class="empty">
+        No FAQs available.
+      </div>
+      `;
+
+    return;
+
+  }
+
+
+  container.innerHTML =
+    faqs
+      .map(
+        (faq,index) => {
+
+          return `
+
+            <div class="faq-item">
+
+              <div
+                class="faq-question"
+                onclick="toggleFAQ(${index})">
+
+                <span>
+                  ${escapeHTML(
+                    getValue(
+                      faq.question,
+                      'Question'
+                    )
+                  )}
+                </span>
+
+                <span>
+                  +
+                </span>
+
+              </div>
+
+              <div
+                id="faqAnswer${index}"
+                class="faq-answer">
+
+                ${escapeHTML(
+                  getValue(
+                    faq.answer,
+                    ''
+                  )
+                )}
+
+              </div>
+
+            </div>
+
+          `;
+
+        }
+      )
+      .join('');
+
+}
+
+
+function toggleFAQ(index){
+
+  const item =
+    document
+      .querySelectorAll(
+        '.faq-item'
+      )[index];
+
+
+  if(item){
+
+    item.classList.toggle(
+      'active'
+    );
+
+  }
+
+}
+
+
+/* ============================================================
+   ENQUIRY
+   ============================================================ */
+
+document.getElementById(
+  'enquiryForm'
+).addEventListener(
+  'submit',
+  async function(event){
+
+    event.preventDefault();
+
+
+    const button =
+      document.getElementById(
+        'enquiryButton'
+      );
+
+
+    button.disabled =
+      true;
+
+    button.textContent =
+      'Sending...';
+
+
+    const name =
+      document.getElementById(
+        'enquiryName'
+      ).value.trim();
+
+
+    const phone =
+      document.getElementById(
+        'enquiryPhone'
+      ).value.trim();
+
+
+    const email =
+      document.getElementById(
+        'enquiryEmail'
+      ).value.trim();
+
+
+    const subject =
+      document.getElementById(
+        'enquirySubject'
+      ).value.trim();
+
+
+    const message =
+      document.getElementById(
+        'enquiryMessage'
+      ).value.trim();
+
+
+    /*
+      IMPORTANT:
+
+      If your enquiries table uses different column names,
+      change this payload according to your exact schema.
+    */
+
+    const payload = {
+
+      client_id:
+        CLIENT_ID,
+
+      name:
+        name,
+
+      phone:
+        phone,
+
+      email:
+        email,
+
+      subject:
+        subject,
+
+      message:
+        message
+
+    };
+
+
+    try{
+
+      const {
+        error
+      } = await supabase
+        .from('enquiries')
+        .insert([
+          payload
+        ]);
+
+
+      if(error){
+
+        console.error(
+          'Enquiry Error:',
+          error
+        );
+
+        showToast(
+          'Unable to send enquiry. Please try again.',
+          'error'
+        );
+
+        return;
+
+      }
+
+
+      showToast(
+        'Enquiry sent successfully.',
+        'success'
+      );
+
+
+      document.getElementById(
+        'enquiryForm'
+      ).reset();
+
+
+    }finally{
+
+      button.disabled =
+        false;
+
+      button.textContent =
+        'Send Enquiry';
+
+    }
+
+  }
+);
+
+
+/* ============================================================
+   MOBILE MENU
+   ============================================================ */
+
+function toggleMobileMenu(){
+
+  document
+    .getElementById(
+      'mobileNav'
+    )
+    .classList.toggle(
+      'active'
+    );
+
+}
+
+
+/* ============================================================
+   HELPERS
+   ============================================================ */
+
+function setText(
+  id,
+  value
+){
+
+  const el =
+    document.getElementById(
+      id
+    );
+
+  if(el){
+
+    el.textContent =
+      value;
+
+  }
+
+}
+
+
+function setLink(
+  id,
+  url
+){
+
+  const el =
+    document.getElementById(
+      id
+    );
+
+  if(!el){
+
+    return;
+
+  }
+
+
+  if(url){
+
+    el.href =
+      url;
+
+    el.style.display =
+      'inline';
+
+  }else{
+
+    el.href =
+      '#';
+
+    el.style.opacity =
+      '.5';
+
+  }
+
+}
+
+
+function getValue(
+  value,
+  fallback
+){
+
+  if(
+    value === null ||
+    value === undefined ||
+    value === ''
+  ){
+
+    return fallback;
+
+  }
+
+  return value;
+
+}
+
+
+function getFirst(
+  obj,
+  fields,
+  fallback
+){
+
+  for(
+    const field of fields
+  ){
+
+    if(
+      obj[field] !== undefined &&
+      obj[field] !== null &&
+      obj[field] !== ''
+    ){
+
+      return obj[field];
+
+    }
+
+  }
+
+  return fallback;
+
+}
+
+
+function truncate(
+  text,
+  length
+){
+
+  text =
+    String(
+      text || ''
+    );
+
+  if(
+    text.length <= length
+  ){
+
+    return text;
+
+  }
+
+  return (
+    text.substring(
+      0,
+      length
+    ) + '...'
+  );
+
+}
+
+
+function escapeHTML(
+  value
+){
+
+  return String(
+    value ?? ''
+  )
+  .replace(
+    /&/g,
+    '&amp;'
+  )
+  .replace(
+    /</g,
+    '&lt;'
+  )
+  .replace(
+    />/g,
+    '&gt;'
+  )
+  .replace(
+    /"/g,
+    '&quot;'
+  )
+  .replace(
+    /'/g,
+    '&#039;'
+  );
+
+}
+
+
+function escapeAttr(
+  value
+){
+
+  return escapeHTML(
+    value
+  );
+
+}
+
+
+function showToast(
+  message,
+  type=''
+){
+
+  const toast =
+    document.getElementById(
+      'toast'
+    );
+
+  toast.textContent =
+    message;
+
+  toast.className =
+    'toast show ' +
+    type;
+
+
+  setTimeout(
+    () => {
+
+      toast.className =
+        'toast';
+
+    },
+    3500
+  );
+
+}
+
+</script>
+
+</body>
+</html>
